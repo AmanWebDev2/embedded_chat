@@ -1,6 +1,7 @@
+import { useRef } from "react";
 import Frame from "react-frame-component";
-import MinizeIcon from "../assets/svg/minimize_icon.svg";
-import OpenIcon from "../assets/svg/open_icon.svg";
+import Close from "../assets/svg/Close";
+import Open from "../assets/svg/Open";
 
 const css: string = `  
 .chat-icon {
@@ -17,21 +18,28 @@ const css: string = `
     justify-content: center;
     align-items: center;
 }
-.chatscreen-close {
-  opacity: 0;
-  transform: rotate(-60deg)        
-}
-.chatscreen-open {
-  opacity: 1;
-  transform: rotate(0deg) scale(1)
-}
+  .chatscreen-close {
+    opacity: 0;
+    transform: rotate(-60deg)        
+  }
+  .chatscreen-open {
+    opacity: 1;
+    transform: rotate(0deg) scale(1)
+  }
 `;
 
-const ChatLauncher = () => {
+const ChatLauncher = ({ open, setOpen}: {open:boolean,setOpen: React.Dispatch<React.SetStateAction<boolean>>}) => {
+  const iframeRef = useRef<null | HTMLIFrameElement>(null);
+
+  const handleOpenCloseChatWidget = () => {
+    if(!iframeRef?.current) return;
+    setOpen(()=>!open);
+    
+  };
+
   return (
     <Frame
-    allowTransparency={true}
-    frameBorder={0}
+      ref={iframeRef}
       srcDoc='<!DOCTYPE html><html><head></head><body><div class="frame-root"></div></body></html>'
       style={{
         position: "fixed",
@@ -55,15 +63,24 @@ const ChatLauncher = () => {
         animationDuration: "300ms",
         zIndex: 2147483001,
       }}
+      onClick={handleOpenCloseChatWidget}
     >
       <div className="chat-icon">
         <style>{css}</style>
         <div className="chat-icon-area">
-          <div className="chatscreen-close">
-            <img src={MinizeIcon} alt="minimize icon" />
+          <div className="chatscreen-close"
+          style={{
+            opacity:`${open ? '1': '0'}`,
+            transform: `${open ? 'rotate(0deg)': 'rotate(-60deg)'}`
+          }}
+          >
+            <Close/>
           </div>
-          <div className="chatscreen-open">
-            <img src={OpenIcon} alt="minimize icon" />
+          <div className="chatscreen-open" style={{
+            opacity:`${open ? '0': '1'}`,
+            transform: `${open ? 'scale(0) ': 'scale(1)'}`
+          }}>
+            <Open/>
           </div>
         </div>
       </div>

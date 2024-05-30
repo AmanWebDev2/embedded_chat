@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import './App.css'
 import ChatLauncher from './components/ChatLauncher'
+import ChatLauncherBody from './components/ChatLauncherBody'
 
 const css:string = `
 .kudoshub-Iframe-hide {
@@ -74,15 +76,55 @@ const css:string = `
       transform: scale(1)
     }
   }
+
+  .iframe-hide {
+    display: none !important;
+  }
+  .iframe-show {
+    display: block !important;
+  }
+
+  @keyframes widgetAnimation {
+    0% {
+        opacity: 0;
+        -webkit-transform: scaleX(0.7);
+        -moz-transform: scaleX(0.7);
+        -o-transform: scaleX(0.7);
+        -ms-transform: scaleX(0.7);
+        transform: scaleX(0.7);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scaleX(1);
+        -moz-transform: scaleX(1);
+        -o-transform: scaleX(1);
+        -ms-transform: scaleX(1);
+        transform: scaleX(1);
+    }
+  }
+
+  @keyframes slideInLeft {
+    0% {
+        transform: translate3d(-100%, 0px, 0px);
+        visibility: visible;
+    }
+    100% {
+        transform: translate3d(0px, 0px, 0px);
+    }
+
+}
+
 `
 
 function App() {
+  const [open,setOpen] = useState<boolean>(false);
   return (
     <>
     <style type="text/css">
         {css}
         </style>
-      <ChatLauncher/>
+      <ChatLauncher open={open} setOpen={setOpen} />
+      <ChatLauncherBody open={open}  /> 
     </>
   )
 }
