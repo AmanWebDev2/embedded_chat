@@ -114,6 +114,16 @@ const css:string = `
 
 }
 
+  @keyframes fadeInUpBig {
+    0% {
+      opacity: 0;
+      transform: translate3d(0px, 2000px, 0px);
+    }
+    100% {
+        opacity: 1;
+      }
+  }
+
 `
 
 function App() {

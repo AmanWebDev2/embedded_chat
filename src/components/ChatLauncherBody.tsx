@@ -68,10 +68,52 @@ const css: string = `
         z-index: 20;
     }
 
+    .chat-body {
+        flex:1;
+    }
+    .chat-footer {
+        animation: 1s ease 0s 1 normal backwards running fadeInUpBig;
+        position: fixed;
+        z-index: 12;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+    }
+    .chat-footer > div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: rgba(0, 0, 0, 0.04) 0px -10px 10px 1px;
+    }
+    
+    .chat-footer a {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        font-size: 13px;
+        padding: 2px 12px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.2s linear 0s;
+        text-decoration: none;
+        color: rgb(119, 118, 120) !important;
+    }
+    .chat-footer img {
+        width: 26px;
+        height: 26px;
+        margin-right: 8px;
+    }
 
-   
-
-
+    @keyframes fadeInUpBig {
+        0% {
+          opacity: 0;
+          transform: translate3d(0px, 2000px, 0px);
+        }
+        100% {
+            opacity: 1;
+          }
+      }
+    
 
 `;
 const ChatLauncherBody = ({ open }: { open: boolean }) => {
@@ -114,7 +156,14 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
           </div>
         </div>
         <div className="chat-body slide-left-animation"></div>
-        <div className="chat-footer"></div>
+        <div className="chat-footer">
+            <div className="">
+                <a href="#">
+                    <img src="https://app.kudoshub.com:3000/js/../media/kudosHub-logo.svg" alt="kudoshubLogo" />
+                    <p>We run on Aman</p>
+                </a>
+            </div>
+        </div>
       </div>
     </Frame>
   );
