@@ -1,4 +1,6 @@
 import Frame from "react-frame-component";
+import StartConversation from "./cards/StartConversation";
+import { useEffect, useRef } from "react";
 const css: string = ` 
     .chat-widget {
         display: flex;
@@ -117,10 +119,33 @@ const css: string = `
 
 `;
 const ChatLauncherBody = ({ open }: { open: boolean }) => {
-  return (
+    const iframeChatBodyRef = useRef<null | HTMLIFrameElement>(null);
+  
+  useEffect(()=>{
+    // if(!iframeChatBodyRef?.current) return;
+    // const iframe = iframeChatBodyRef.current;
+    // if(!iframe.contentWindow || !iframe.contentWindow.document) return;
+
+    // const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+    // const script = document.createElement('script');
+    // script.src = 'https://cdn.tailwindcss.com';
+    // iframeDocument.head.appendChild(script);
+  },[]);
+
+    return (
     <Frame
+    ref={iframeChatBodyRef}
     className={`${open ? 'iframe-open':'iframe-hide'}`}
       allowFullScreen={true}
+      head={
+        <>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+        />
+      </>
+      }
       style={{
         zIndex: 2147483001,
         position: "fixed",
@@ -148,16 +173,18 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
             <div className="slide-left-animation">
               <div className="header-section-text">
                 <div className="text-section">
-                  <h1>Hey there welcome</h1>
-                  <p>We are here to help!</p>
+                  <h1 className="text-3xl font-semibold">Hey there welcome</h1>
+                  <p className="py-3 text-lg">We are here to help!</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="chat-body slide-left-animation"></div>
+        <div className="chat-body slide-left-animation">
+            <StartConversation/>
+        </div>
         <div className="chat-footer">
-            <div className="">
+            <div className="py-3">
                 <a href="#">
                     <img src="https://app.kudoshub.com:3000/js/../media/kudosHub-logo.svg" alt="kudoshubLogo" />
                     <p>We run on Aman</p>
