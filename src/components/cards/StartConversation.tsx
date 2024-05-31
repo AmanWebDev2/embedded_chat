@@ -3,17 +3,6 @@ import Clock2 from "../../assets/svg/Clock2"
 import SendMessage from "../../assets/svg/SendMessage"
 
 const css:string = `
-    .card {
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 15px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px, rgba(235, 73, 149, 0.5) 2px 0px 0px 0px inset;
-        border-radius: 4px;
-        padding: 20px 25px;
-        margin-top: 20px;
-        background: rgb(255, 255, 255);
-        z-index: 12;
-        margin-left: 12px;
-        margin-right: 12px;
-    }
-
     .team-group > div {
         background-color: rgb(235, 73, 149);
         width: 40px;
@@ -35,7 +24,7 @@ const css:string = `
         cursor: pointer;
         text-align: center;
         font-weight: 600;
-        padding: 0px 24px;
+        padding: 0px 17px;
         border-radius: 25px;
         font-size: 14px;
     }
@@ -54,7 +43,7 @@ const StartConversation = () => {
     <>
     <style>{css}</style>
         <div className="card start-conversation">
-            <div className="flex items-center">
+            <div className="inner-card-body flex items-center">
                 <div className="left space-y-5">
                     <h2 className="font-semibold text-lg">Start a conversation</h2>
                     <div className="flex items-center gap-x-3">

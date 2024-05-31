@@ -1,6 +1,7 @@
 import Frame from "react-frame-component";
 import StartConversation from "./cards/StartConversation";
 import { useEffect, useRef } from "react";
+import ContinueConversations from "./cards/ContinueConversations";
 const css: string = ` 
     .chat-widget {
         display: flex;
@@ -76,10 +77,10 @@ const css: string = `
     .chat-footer {
         animation: 1s ease 0s 1 normal backwards running fadeInUpBig;
         position: fixed;
-        z-index: 12;
         bottom: 0px;
         left: 0px;
         right: 0px;
+        background-color: white;
     }
     .chat-footer > div{
         display: flex;
@@ -105,6 +106,38 @@ const css: string = `
         height: 26px;
         margin-right: 8px;
     }
+
+    .card {
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 15px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px, rgba(235, 73, 149, 0.5) 2px 0px 0px 0px inset;
+      border-radius: 4px;
+      margin-top: 20px;
+      background: rgb(255, 255, 255);
+      z-index: 12;
+     
+    }
+    .conversation-section-body {
+      padding: 0px 15px 60px;
+    }
+    .card > .inner-card-body{
+      padding: 20px 25px;
+    }
+    .prev-convo-card {
+      position: relative;
+    }
+
+  .prev-convo-card:hover {
+    background-color: rgba(235, 73, 149, 0.12) !important;
+  }
+
+  .prev-convo-card::after {
+    content: "";
+    position: absolute;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    left: 24px;
+    right: 24px;
+    bottom: 0px;
+    margin: 0px auto;
+}
 
     @keyframes fadeInUpBig {
         0% {
@@ -180,10 +213,13 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
             </div>
           </div>
         </div>
-        <div className="chat-body slide-left-animation">
+        <div className="chat-body z-20 slide-left-animation">
+          <div className="conversation-section-body">
+          <ContinueConversations/>
             <StartConversation/>
+          </div>
         </div>
-        <div className="chat-footer">
+        <div className="chat-footer z-30">
             <div className="py-3">
                 <a href="#">
                     <img src="https://app.kudoshub.com:3000/js/../media/kudosHub-logo.svg" alt="kudoshubLogo" />
