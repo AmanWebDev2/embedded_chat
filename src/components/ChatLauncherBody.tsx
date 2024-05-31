@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import ContinueConversations from "./cards/ContinueConversations";
 import { TAB } from "../constants";
 import AllConversations from "./tabs/AllConversations";
+import Header from "./common/Header";
+import NewConversation from "./tabs/NewConversation";
 const css: string = ` 
     .chat-widget {
         display: flex;
@@ -277,11 +279,11 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
       case TAB.ALL_CONVERSATION:
         return <AllConversations setCurrentTab={setCurrentTab} />;
       case TAB.NEW_CONVERSATION:
-        return <>NEW CONVER</>;
+        return <NewConversation setCurrentTab={setCurrentTab} currentTab={currentTab} />;
       case TAB.PREV_CONVERSATION:
         return <>PREV CONV</>;
       default:
-        return <Home setCurrentTab={setCurrentTab} />;
+        return <Home currentTab={currentTab} setCurrentTab={setCurrentTab} />;
     }
   };
 
@@ -325,29 +327,18 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
 
 const Home = ({
   setCurrentTab,
+  currentTab
 }: {
+  currentTab: string;
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <>
-      <div className="chat-header">
-        <div className="chat-widget-header-shape-secondary"></div>
-        <div className="chat-widget-header-section">
-          <div className="slide-left-animation">
-            <div className="header-section-text">
-              <div className="h-12"></div>
-              <div className="text-section">
-                <h1 className="text-3xl font-semibold">Hey there welcome</h1>
-                <p className="py-3 text-lg">We are here to help!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+     <Header setCurrentTab={setCurrentTab} currentTab={currentTab} />
       <div className="chat-body z-20 slide-left-animation">
         <div className="conversation-section-body">
           <ContinueConversations setCurrentTab={setCurrentTab} />
-          <StartConversation />
+          <StartConversation setCurrentTab={setCurrentTab} />
         </div>
       </div>
       <div className="chat-footer z-30">

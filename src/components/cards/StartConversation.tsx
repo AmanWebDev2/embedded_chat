@@ -1,8 +1,10 @@
+import React from "react";
 import Clock from "../../assets/svg/Clock";
 import Clock2 from "../../assets/svg/Clock2";
 import SendMessage from "../../assets/svg/SendMessage";
+import { TAB } from "../../constants";
 
-const StartConversation = () => {
+const StartConversation = ({ setCurrentTab }: {setCurrentTab:React.Dispatch<React.SetStateAction<string>>}) => {
   return (
     <>
       <div className="card start-conversation">
@@ -21,7 +23,7 @@ const StartConversation = () => {
                 </span>
               </div>
             </div>
-            <button className="btn flex items-center gap-x-3">
+            <button onClick={()=>setCurrentTab(TAB.NEW_CONVERSATION)} className="btn flex items-center gap-x-3">
               <SendMessage /> New Conversation
             </button>
           </div>
