@@ -1,7 +1,9 @@
 import Frame from "react-frame-component";
 import StartConversation from "./cards/StartConversation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ContinueConversations from "./cards/ContinueConversations";
+import { TAB } from "../constants";
+import AllConversations from "./tabs/AllConversations";
 const css: string = ` 
     .chat-widget {
         display: flex;
@@ -118,7 +120,7 @@ const css: string = `
     .conversation-section-body {
       padding: 0px 15px 60px;
     }
-    .card > .inner-card-body{
+    .inner-card-body{
       padding: 20px 25px;
     }
     .prev-convo-card {
@@ -137,6 +139,107 @@ const css: string = `
     right: 24px;
     bottom: 0px;
     margin: 0px auto;
+  }
+
+
+  .min-header {
+    height: 75px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 14px 15px;
+    transition: all 0.3s ease 0s;
+    background-color: rgb(235, 73, 149);
+  }
+
+  .back-to-home-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    transition: all 0.3s linear 0s;
+    display: flex;
+    justify-content: center;  
+    cursor: pointer;
+    position: relative;
+    z-index: 12;
+    min-width: 48px;
+    min-height: 48px;
+    align-self: flex-start;
+  }
+
+  .back-to-home-btn:hover {
+    background-color: rgb(223 153 186 / 50%);
+  }
+
+  .back-to-home-btn svg {
+    fill: white;
+    width: 20px;
+    transform: rotate(180deg);
+    cursor: pointer;
+  }
+
+
+  .tab-arrow svg path {
+    fill: rgb(235, 73, 149);
+  }
+
+  .all-conversations-body {
+      overflow-y:scroll;
+      height: calc(-76px + 100vh);
+      padding-bottom: 105px;
+      animation: 600ms ease -400ms 1 normal none running slideInRight;
+  }
+
+  .all-conversations-footer {
+    position: fixed;
+    bottom: 0px;
+    height: 105px;
+    pointer-events: none;
+    background: linear-gradient(0deg, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+    width: 100%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  .team-group > div {
+    background-color: rgb(235, 73, 149);
+    width: 40px;
+    height: 40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight: bold;
+}
+
+.btn {
+    background: white;
+    transition: all 0.3s linear 0s;
+    color: rgb(235, 73, 149);
+    border: 1px solid rgb(235, 73, 149);
+    outline: none;
+    height: 40px;
+    pointer-events: auto;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    padding: 0px 17px;
+    border-radius: 25px;
+    font-size: 14px;
+}
+.btn:hover {
+    background-color: rgb(235, 73, 149);
+    border-color: rgb(235, 73, 149);
+    color: rgb(0, 0, 0);
+    color:white;
+}
+.btn:hover svg {
+    fill: white !important;
 }
 
     @keyframes fadeInUpBig {
@@ -152,32 +255,48 @@ const css: string = `
 
 `;
 const ChatLauncherBody = ({ open }: { open: boolean }) => {
-    const iframeChatBodyRef = useRef<null | HTMLIFrameElement>(null);
-  
+  const iframeChatBodyRef = useRef<null | HTMLIFrameElement>(null);
+  const [currentTab, setCurrentTab] = useState(TAB.ALL_CONVERSATION);
+
   useEffect(()=>{
+    setCurrentTab(TAB.HOME);
+  },[open]);
+
+  useEffect(() => {
     // if(!iframeChatBodyRef?.current) return;
     // const iframe = iframeChatBodyRef.current;
     // if(!iframe.contentWindow || !iframe.contentWindow.document) return;
-
     // const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
     // const script = document.createElement('script');
     // script.src = 'https://cdn.tailwindcss.com';
     // iframeDocument.head.appendChild(script);
-  },[]);
+  }, []);
 
-    return (
+  const init = () => {
+    switch (currentTab) {
+      case TAB.ALL_CONVERSATION:
+        return <AllConversations setCurrentTab={setCurrentTab} />;
+      case TAB.NEW_CONVERSATION:
+        return <>NEW CONVER</>;
+      case TAB.PREV_CONVERSATION:
+        return <>PREV CONV</>;
+      default:
+        return <Home setCurrentTab={setCurrentTab} />;
+    }
+  };
+
+  return (
     <Frame
-    ref={iframeChatBodyRef}
-    className={`${open ? 'iframe-open':'iframe-hide'}`}
+      ref={iframeChatBodyRef}
+      className={`${open ? "iframe-open" : "iframe-hide"}`}
       allowFullScreen={true}
       head={
         <>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-        />
-      </>
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+          />
+        </>
       }
       style={{
         zIndex: 2147483001,
@@ -199,37 +318,50 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
       }}
     >
       <style>{css}</style>
-      <div className="chat-widget">
-        <div className="chat-header">
-          <div className="chat-widget-header-shape-secondary"></div>
-          <div className="chat-widget-header-section">
-            <div className="slide-left-animation">
-              <div className="header-section-text">
-                <div className="h-12"></div>
-                <div className="text-section">
-                  <h1 className="text-3xl font-semibold">Hey there welcome</h1>
-                  <p className="py-3 text-lg">We are here to help!</p>
-                </div>
+      <div className="chat-widget">{init()}</div>
+    </Frame>
+  );
+};
+
+const Home = ({
+  setCurrentTab,
+}: {
+  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  return (
+    <>
+      <div className="chat-header">
+        <div className="chat-widget-header-shape-secondary"></div>
+        <div className="chat-widget-header-section">
+          <div className="slide-left-animation">
+            <div className="header-section-text">
+              <div className="h-12"></div>
+              <div className="text-section">
+                <h1 className="text-3xl font-semibold">Hey there welcome</h1>
+                <p className="py-3 text-lg">We are here to help!</p>
               </div>
             </div>
           </div>
         </div>
-        <div className="chat-body z-20 slide-left-animation">
-          <div className="conversation-section-body">
-          <ContinueConversations/>
-            <StartConversation/>
-          </div>
-        </div>
-        <div className="chat-footer z-30">
-            <div className="py-3">
-                <a href="#">
-                    <img src="https://app.kudoshub.com:3000/js/../media/kudosHub-logo.svg" alt="kudoshubLogo" />
-                    <p>We run on Aman</p>
-                </a>
-            </div>
+      </div>
+      <div className="chat-body z-20 slide-left-animation">
+        <div className="conversation-section-body">
+          <ContinueConversations setCurrentTab={setCurrentTab} />
+          <StartConversation />
         </div>
       </div>
-    </Frame>
+      <div className="chat-footer z-30">
+        <div className="py-3">
+          <a href="#">
+            <img
+              src="https://app.kudoshub.com:3000/js/../media/kudosHub-logo.svg"
+              alt="kudoshubLogo"
+            />
+            <p>We run on Aman</p>
+          </a>
+        </div>
+      </div>
+    </>
   );
 };
 

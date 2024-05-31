@@ -1,18 +1,21 @@
 import CloseAngularBracket from "../../assets/svg/CloseAngularBracket"
+import { TAB } from "../../constants"
 
-const ContinueConversations = () => {
+const ContinueConversations = ({ setCurrentTab }: {setCurrentTab: React.Dispatch<React.SetStateAction<string>>}) => {
   return (
     <div className="card continue-conversation">
          <h2 className="font-semibold text-lg px-5 py-3">Continue the conversation</h2>
          <PreviousConversationCard/>
          <PreviousConversationCard/>
          <PreviousConversationCard/>
-         <button className="inner-card-body text-pink-600 text-sm">See all your conversations</button>
+         <button className="inner-card-body text-pink-600 text-sm" onClick={()=>{
+            setCurrentTab(TAB.ALL_CONVERSATION)
+         }}>See all your conversations</button>
     </div>
   )
 }
 
-const PreviousConversationCard = () => {
+export const PreviousConversationCard = () => {
     return (
         <div className="flex items-center inner-card-body prev-convo-card cursor-pointer">
             <div className="team-group">
