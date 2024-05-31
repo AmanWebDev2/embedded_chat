@@ -205,6 +205,7 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
           <div className="chat-widget-header-section">
             <div className="slide-left-animation">
               <div className="header-section-text">
+                <div className="h-12"></div>
                 <div className="text-section">
                   <h1 className="text-3xl font-semibold">Hey there welcome</h1>
                   <p className="py-3 text-lg">We are here to help!</p>

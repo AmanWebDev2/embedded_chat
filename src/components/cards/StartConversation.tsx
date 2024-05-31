@@ -35,7 +35,7 @@ const css:string = `
         color:white;
     }
     .btn:hover svg {
-        fill: white;
+        fill: white !important;
     }
 `
 const StartConversation = () => {

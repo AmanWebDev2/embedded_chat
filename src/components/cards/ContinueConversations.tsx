@@ -7,6 +7,7 @@ const ContinueConversations = () => {
          <PreviousConversationCard/>
          <PreviousConversationCard/>
          <PreviousConversationCard/>
+         <button className="inner-card-body text-pink-600 text-sm">See all your conversations</button>
     </div>
   )
 }
