@@ -244,6 +244,26 @@ const css: string = `
     fill: white !important;
 }
 
+.new-conversation-body {
+  flex: 1;
+}
+.new-conversation-footer {
+  min-height: 60px;
+  background: rgb(255, 255, 255);
+  border-radius: 0px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  -webkit-box-pack: center;
+  align-items: center;
+  justify-content: space-evenly;
+  border-top: 1px solid rgb(230, 230, 230);
+  z-index: 1000;
+  transition: opacity 0.3s ease 0s;
+  animation-name: textAreaAnimation;
+  animation-duration: 600ms;
+}
+
     @keyframes fadeInUpBig {
         0% {
           opacity: 0;
@@ -278,10 +298,10 @@ const css: string = `
 `;
 const ChatLauncherBody = ({ open }: { open: boolean }) => {
   const iframeChatBodyRef = useRef<null | HTMLIFrameElement>(null);
-  const [currentTab, setCurrentTab] = useState(TAB.ALL_CONVERSATION);
+  const [currentTab, setCurrentTab] = useState(TAB.NEW_CONVERSATION);
 
   useEffect(()=>{
-    setCurrentTab(TAB.HOME);
+    // setCurrentTab(TAB.HOME);
   },[open]);
 
   useEffect(() => {
