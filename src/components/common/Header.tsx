@@ -18,8 +18,7 @@ const Header = ({ currentTab,setCurrentTab }: { currentTab: string; setCurrentTa
     <div className="chat-header">
       <div className="chat-widget-header-shape-secondary"></div>
       <div className="chat-widget-header-section">
-        <div className="slide-left-animation">
-          <div className="header-section-text">
+          <div className="header-section-text slide-left-animation">
             <div className="h-4"></div>
             <div className="text-section flex items-center">
             <div
@@ -37,7 +36,6 @@ const Header = ({ currentTab,setCurrentTab }: { currentTab: string; setCurrentTa
             </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   );

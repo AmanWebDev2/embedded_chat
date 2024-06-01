@@ -25,7 +25,7 @@ const AllConversations = ({ setCurrentTab }:{setCurrentTab:React.Dispatch<React.
             <PreviousConversationCard/>
         </div>
         <div className="all-conversations-footer">
-        <button className="btn flex items-center gap-x-3">
+        <button onClick={()=>setCurrentTab(TAB.NEW_CONVERSATION)} className="btn flex items-center gap-x-3">
             <SendMessage /> New Conversation
         </button>
         </div>

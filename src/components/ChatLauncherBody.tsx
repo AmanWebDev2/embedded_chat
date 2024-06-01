@@ -253,6 +253,26 @@ const css: string = `
             opacity: 1;
           }
       }
+
+      @keyframes slideInLeft {
+        0% {
+            transform: translate3d(-100%, 0px, 0px);
+            visibility: visible;
+        }
+        100% {
+            transform: translate3d(0px, 0px, 0px);
+        }
+      }
+
+      @keyframes slideInRight {
+        0% {
+          transform: translate3d(100%, 0px, 0px);
+          visibility: visible;
+        }
+        100% {
+            transform: translate3d(0px, 0px, 0px);
+        }
+      }
     
 
 `;
