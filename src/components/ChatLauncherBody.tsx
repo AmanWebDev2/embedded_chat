@@ -379,7 +379,7 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
             setToggleGif={setToggleGif}
           />
         );
-      case TAB.PREV_CONVERSATION:
+      case TAB.OPEN_CONVERSATION:
         return <>PREV CONV</>;
       default:
         return <Home currentTab={currentTab} setCurrentTab={setCurrentTab} />;

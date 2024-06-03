@@ -1,0 +1,29 @@
+import ConversationBody from "../common/ConversationBody";
+import ConversationFooter from "../common/ConversationFooter";
+import Header from "../common/Header";
+
+const OpenConversation = ({
+    currentTab,
+    setCurrentTab,
+    toggleEmoji,
+    setToggleEmoji,
+    toggleGif,
+    setToggleGif
+  }: {
+    currentTab: string;
+    setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
+    toggleEmoji: boolean;
+    setToggleEmoji: React.Dispatch<React.SetStateAction<boolean>>;
+    toggleGif: boolean;
+    setToggleGif: React.Dispatch<React.SetStateAction<boolean>>;
+  }) => {
+  return (
+    <>
+    <Header setCurrentTab={setCurrentTab} currentTab={currentTab} />
+    <ConversationBody toggleEmoji={toggleEmoji} toggleGif={toggleGif} />
+    <ConversationFooter toggleEmoji={toggleEmoji} setToggleEmoji={setToggleEmoji} toggleGif={toggleGif} setToggleGif={setToggleGif} />
+    </>
+  )
+}
+
+export default OpenConversation
