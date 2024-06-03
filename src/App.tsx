@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import ChatLauncher from './components/ChatLauncher'
 import ChatLauncherBody from './components/ChatLauncherBody'
@@ -119,6 +119,9 @@ const css:string = `
 
 function App() {
   const [open,setOpen] = useState<boolean>(false);
+  useEffect(() => {
+    console.log(window.chatEmbed)
+  }, [])
   return (
     <>
     <style type="text/css">
