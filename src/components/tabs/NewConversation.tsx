@@ -4,6 +4,7 @@ import GIF from "../../assets/svg/GIF";
 import Smiley from "../../assets/svg/Smiley";
 import Header from "../common/Header";
 import ConversationBody from "../common/ConversationBody";
+import EmojiPicker from "emoji-picker-react";
 
 const NewConversation = ({
   currentTab,
@@ -30,6 +31,13 @@ const NewConversation = ({
             <GifPicker height="-webkit-fill-available" width="unset" theme={Theme.DARK} tenorApiKey={"AIzaSyBAQM7rDpRahglJ3iDdMoUcCxCvNB8sWuA"} />
           </div>
         </div>}
+        {
+          toggleEmoji && <div className="popover-wrapper">
+          <div className="popover" role="tooltip">
+            <EmojiPicker theme={Theme.DARK} lazyLoadEmojis={true} width="unset" height="-webkit-fill-available" />
+          </div>
+        </div>
+        }
 
       </div>
       <div className="new-conversation-footer flex">
@@ -41,7 +49,7 @@ const NewConversation = ({
             setToggleEmoji(!toggleEmoji)
             setToggleGif(false)
           }}>
-            <Smiley/>
+              <Smiley/>
           </button>
           <button className="gif" onClick={()=>{
             setToggleGif(!toggleGif)

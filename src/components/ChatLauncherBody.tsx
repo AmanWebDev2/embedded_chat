@@ -265,12 +265,13 @@ const css: string = `
 }
 
 .popover {
-  height: 323px;
+    height: 385px;
     position: fixed;
     top: unset;
     bottom: 64px;
     left: 25px;
     right: 25px;
+    z-index:22;
 }
 
     @keyframes fadeInUpBig {
