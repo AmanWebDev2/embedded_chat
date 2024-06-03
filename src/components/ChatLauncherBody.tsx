@@ -416,7 +416,6 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
         border: "none",
         outline: "none",
         cursor: "pointer",
-        background: "rgb(255, 255, 255)",
       }}
     >
       <style>{css}</style>
