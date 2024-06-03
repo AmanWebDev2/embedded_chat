@@ -28,16 +28,15 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: tsc && npm run build
-
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
-      permissions:
-          id-token: write
-          contents: read
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./ s3://chat-embedded --delete 
+      run: aws s3 sync ./ s3://chat-embedded --delete
+        # SRC_DIR: /dist/chatEmbed.js # Adjust the path accordingly
+        # DEST_DIR: chat-embedded/ # Adjust the destination path in S3
+    
