@@ -36,7 +36,8 @@ jobs:
         aws-region: ap-south-1
 
     - name: Deploy static site to S3 bucket
-      run: aws s3 cp ./dist/chatEmbed.js aws s3://chat-embedded/ --delete
+      run: pwd && ls -l
+      run: aws s3 cp ./dist/ aws s3://chat-embedded/ --delete
         # SRC_DIR: /dist/chatEmbed.js # Adjust the path accordingly
         # DEST_DIR: chat-embedded/ # Adjust the destination path in S3
     
