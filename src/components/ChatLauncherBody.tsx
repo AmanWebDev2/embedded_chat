@@ -6,6 +6,7 @@ import { TAB } from "../constants";
 import AllConversations from "./tabs/AllConversations";
 import Header from "./common/Header";
 import NewConversation from "./tabs/NewConversation";
+import OpenConversation from "./tabs/OpenConversation";
 const css: string = ` 
     .chat-widget {
         display: flex;
@@ -380,7 +381,13 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
           />
         );
       case TAB.OPEN_CONVERSATION:
-        return <>PREV CONV</>;
+        return <OpenConversation 
+        setToggleGif={setToggleGif}
+        toggleGif={toggleGif}
+        setToggleEmoji={setToggleEmoji} 
+        toggleEmoji={toggleEmoji} 
+        setCurrentTab={setCurrentTab} 
+        currentTab={currentTab} />;
       default:
         return <Home currentTab={currentTab} setCurrentTab={setCurrentTab} />;
     }

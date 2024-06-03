@@ -5,9 +5,12 @@ const ContinueConversations = ({ setCurrentTab }: {setCurrentTab: React.Dispatch
   return (
     <div className="card continue-conversation">
          <h2 className="font-semibold text-lg px-5 py-3">Continue the conversation</h2>
-         <PreviousConversationCard/>
-         <PreviousConversationCard/>
-         <PreviousConversationCard/>
+         {
+            [1,2,3].map(()=>{
+                return <PreviousConversationCard setCurrentTab={setCurrentTab} />
+            
+            })
+         }
          <button className="inner-card-body text-pink-600 text-sm" onClick={()=>{
             setCurrentTab(TAB.ALL_CONVERSATION)
          }}>See all your conversations</button>
@@ -15,9 +18,13 @@ const ContinueConversations = ({ setCurrentTab }: {setCurrentTab: React.Dispatch
   )
 }
 
-export const PreviousConversationCard = () => {
+export const PreviousConversationCard = ({
+    setCurrentTab
+}:{
+    setCurrentTab: React.Dispatch<React.SetStateAction<string>>
+}) => {
     return (
-        <div className="flex items-center inner-card-body prev-convo-card cursor-pointer">
+        <div onClick={()=>setCurrentTab(TAB.OPEN_CONVERSATION)} className="flex items-center inner-card-body prev-convo-card cursor-pointer">
             <div className="team-group">
                 <div className="rounded-full bg-[rgb(235, 73, 149)]">A</div>
             </div>
