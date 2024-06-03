@@ -423,6 +423,7 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
         border: "none",
         outline: "none",
         cursor: "pointer",
+        backgroundColor: "white", 
       }}
     >
       <style>{css}</style>
