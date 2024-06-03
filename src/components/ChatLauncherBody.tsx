@@ -252,7 +252,6 @@ const css: string = `
   background: rgb(255, 255, 255);
   border-radius: 0px;
   margin: 0px;
-  padding: 0px;
   display: flex;
   -webkit-box-pack: center;
   align-items: center;
@@ -262,6 +261,24 @@ const css: string = `
   transition: opacity 0.3s ease 0s;
   animation-name: textAreaAnimation;
   animation-duration: 600ms;
+  max-height:200px;
+  padding: 0 1rem;
+}
+
+.new-conversation-footer textarea {
+  box-sizing: border-box;
+  padding: 18px 29px 0px 15px;
+  width: 100%;
+  height: 100%;
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.33;
+  background-color: rgb(255, 255, 255);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  max-height: 200px;
+  overflow: hidden;
 }
 
 .popover {
@@ -272,6 +289,27 @@ const css: string = `
     left: 25px;
     right: 25px;
     z-index:22;
+}
+.chat-bubble-right{
+    height: auto;
+    padding: 9px 17px;
+    min-width: 40px;
+    border-radius: 18px;
+    background-color: rgb(235, 73, 149);
+    color: white;
+    max-width: 75%;
+}
+
+.chat-bot-icon{
+  background-image: url('https://app.kudoshub.com:4444/i/o/icons/user.png');
+  background-size: cover;
+  background-position: center center;
+  border: 2px solid rgb(132, 61, 240);
+  color: rgb(255, 255, 255);
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
     @keyframes fadeInUpBig {
@@ -399,6 +437,7 @@ const Home = ({
       <Header setCurrentTab={setCurrentTab} currentTab={currentTab} />
       <div className="chat-body z-20 slide-left-animation">
         <div className="conversation-section-body">
+          {/* conditionally render continue conversation */}
           <ContinueConversations setCurrentTab={setCurrentTab} />
           <StartConversation setCurrentTab={setCurrentTab} />
         </div>

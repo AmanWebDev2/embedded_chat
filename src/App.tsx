@@ -121,7 +121,7 @@ function App() {
   const [open,setOpen] = useState<boolean>(false);
   useEffect(() => {
     const chatEmbed = (window as any).chatEmbed;
-    console.log(chatEmbed)
+    console.log(chatEmbed) // working
   }, [])
   return (
     <>
