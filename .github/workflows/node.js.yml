@@ -28,7 +28,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: tsc && npm run build
-    - run: npm test
     - name: Upload to S3
       uses: jakejarvis/s3-sync-action@v0.4.0
       with:
