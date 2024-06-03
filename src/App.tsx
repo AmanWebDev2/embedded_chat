@@ -120,7 +120,8 @@ const css:string = `
 function App() {
   const [open,setOpen] = useState<boolean>(false);
   useEffect(() => {
-    console.log(window.chatEmbed)
+    const chatEmbed = (window as any).chatEmbed;
+    console.log(chatEmbed)
   }, [])
   return (
     <>
