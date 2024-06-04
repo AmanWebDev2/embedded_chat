@@ -314,6 +314,12 @@ const css: string = `
   border-radius: 50%;
 }
 
+.chat-body {
+  outline-offset: -5px;
+    scrollbar-color: gray lightgray;
+    scrollbar-width: thin;
+}
+
     @keyframes fadeInUpBig {
         0% {
           opacity: 0;
@@ -398,6 +404,7 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
       ref={iframeChatBodyRef}
       className={`${open ? "iframe-open" : "iframe-hide"}`}
       allowFullScreen={true}
+      id="chat-widget-iframe"
       head={
         <>
           <link

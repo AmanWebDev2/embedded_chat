@@ -1,41 +1,29 @@
-import EmojiPicker from "emoji-picker-react";
-import GifPicker, { Theme } from "gif-picker-react";
+import { useChatStore } from "../../store";
+import Message from "./Message"
 
-const ConversationBody = ({
-  toggleEmoji,
-  toggleGif,
-}: {
-  toggleEmoji: boolean;
-  toggleGif: boolean;
-}) => {
+const ConversationBody = () => {
+  const { currentConversation } = useChatStore();
   return (
-    <div className="chat-body flex-1 items-center p-4">
+    <div className="chat-body p-4 space-y-4 overflow-y-auto flex-1">
       
-      {/* only flex-row-reverse dynamically call
-        if i am sending a message then --> flex-row-reverse
-        if i am receiving a message then --> flex-row
-      */}
-        <div className="bubble-right-section flex flex-row-reverse items-center gap-x-2">
-          <div className="message-sender-icon">
-            <div className="chat-bot-icon"></div>
-          </div>
-          <div className="chat-bubble-right">
-            <p className="text-sm text-balance break-all ">Hellossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
-          </div>
-        </div>
-
-        { toggleGif &&  <div className="popover-wrapper">
-          <div className="popover" role="tooltip">
-            <GifPicker height="-webkit-fill-available" width="unset" theme={Theme.DARK} tenorApiKey={"AIzaSyBAQM7rDpRahglJ3iDdMoUcCxCvNB8sWuA"} />
-          </div>
-        </div>}
-        {
-          toggleEmoji && <div className="popover-wrapper">
-          <div className="popover" role="tooltip">
-            <EmojiPicker theme={Theme.DARK} lazyLoadEmojis={true} width="unset" height="-webkit-fill-available" />
-          </div>
-        </div>
-        }
+      {/* <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message /> */}
+      {
+        currentConversation?.map((messageData, index) => {
+          return <Message key={index} messageData={messageData} />
+        })  
+      }
+        
+        <div id="popover-portal"></div>
+      
     </div>
   )
 }
