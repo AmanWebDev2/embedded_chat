@@ -24,7 +24,7 @@ const Header = ({
   };
   return (
     <>
-   {  currentTab === TAB.OPEN_CONVERSATION ? <MiniHeader currentTab={currentTab} setCurrentTab={setCurrentTab} /> : <div className="chat-header">
+   {  currentTab === TAB.OPEN_CONVERSATION ? <MiniHeader currentTab={currentTab} setCurrentTab={setCurrentTab} /> : <nav className="chat-header">
       <div className="chat-widget-header-shape-secondary"></div>
       <div className="chat-widget-header-section">
         <div className="header-section-text slide-left-animation">
@@ -41,14 +41,15 @@ const Header = ({
             >
               <CloseAngularBracket />
             </div>
-            <div className="wrap">
-              <h1 className="text-3xl font-semibold">{headerText()}</h1>
-              <p className="py-3 text-lg">We are here to help!</p>
+            <div className="wrap px-4">
+              <h1 className={`${currentTab===TAB.NEW_CONVERSATION ? 'text-2xl' : 'text-3xl'}
+              } font-semibold`}>{headerText()}</h1>
+              <p className={`${currentTab===TAB.NEW_CONVERSATION ? 'py-1' : 'py-3'} text-lg`}>We are here to help!</p>
             </div>
           </div>
         </div>
       </div>
-    </div> }
+    </nav> }
     </>
   );
 };
@@ -61,7 +62,7 @@ const MiniHeader = ({
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
-    <div className="min-header">
+    <nav className="min-header">
       <div
         className="back-to-home-btn"
         onClick={() => {
@@ -72,25 +73,27 @@ const MiniHeader = ({
       </div>
       {
         currentTab === TAB.OPEN_CONVERSATION ? 
-        <div className="flex items-center gap-x-3 flex-1">
+        
+        <div className="flex items-center gap-x-3 flex-1 py-1 cursor-pointer rounded transition-all ease-in-out duration-300 pl-3 text-white hover:bg-black hover:bg-opacity-10">
               <div className="team-group">
-                <div className="rounded-full bg-[rgb(235, 73, 149)] border-2 border-white">A</div>
+                <div className="rounded-full border-2 border-white">A</div>
               </div>
-              <div className="reply-time cursor-pointer hover:bg-gray-100 mx-auto">
-                <p>Reply text time</p>
+              <div className="reply-time space-y-1 text-sm pl-4">
+                <p>Google</p>
                 <span className="flex items-center space-x-2">
                   <Clock css={{
                     filter: "brightness(41.5)"
                   }} />
-                  <span>A few minutes</span>
+                  <span>Under few minutes</span>
                 </span>
               </div>
-            </div>
+            </div>   
+       
         :
         <h2 className="text-xl text-center flex-1 text-white">
         Open Conversation
       </h2>}
-    </div>
+    </nav>
   );
 };
 

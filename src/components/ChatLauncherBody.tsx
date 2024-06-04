@@ -146,7 +146,7 @@ const css: string = `
 
 
   .min-header {
-    height: 75px;
+    // height: 75px;
     width: 100%;
     position: relative;
     display: flex;
