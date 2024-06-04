@@ -12,7 +12,7 @@ const Message = ({
     messageData: Conversation;
 }) => {
   return (
-    <div className="bubble-right-section flex flex-row-reverse items-center gap-x-2">
+    <div className="bubble-right-section flex flex-row-reverse gap-x-2">
       <div className="message-sender-icon">
         <div className="chat-bot-icon"></div>
       </div>
