@@ -16,7 +16,7 @@ const NewConversation = ({
   return (
     <>
       <Header/>
-        <ConversationBody toggleEmoji={toggleEmoji} toggleGif={toggleGif} />
+        <ConversationBody/>
         <ConversationFooter toggleEmoji={toggleEmoji} setToggleEmoji={setToggleEmoji} toggleGif={toggleGif} setToggleGif={setToggleGif} />
     </>
   );
