@@ -1,15 +1,11 @@
 import Clock from "../../assets/svg/Clock";
 import CloseAngularBracket from "../../assets/svg/CloseAngularBracket";
 import { TAB } from "../../constants";
+import { useChatStore } from "../../store";
 
-const Header = ({
-  currentTab,
-  setCurrentTab,
-}: {
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-  console.log(currentTab)
+const Header = () => {
+  const { currentTab, setCurrentTab } = useChatStore();
+
   const headerText = () => {
     switch (currentTab) {
       case TAB.ALL_CONVERSATION:
@@ -24,7 +20,7 @@ const Header = ({
   };
   return (
     <>
-   {  currentTab === TAB.OPEN_CONVERSATION ? <MiniHeader currentTab={currentTab} setCurrentTab={setCurrentTab} /> : <nav className="chat-header">
+   {  currentTab === TAB.OPEN_CONVERSATION ? <MiniHeader /> : <nav className="chat-header">
       <div className="chat-widget-header-shape-secondary"></div>
       <div className="chat-widget-header-section">
         <div className="header-section-text slide-left-animation">
@@ -54,13 +50,8 @@ const Header = ({
   );
 };
 
-const MiniHeader = ({
-  currentTab,
-  setCurrentTab,
-}: {
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const MiniHeader = () => {
+  const { currentTab, setCurrentTab } = useChatStore();
   return (
     <nav className="min-header">
       <div

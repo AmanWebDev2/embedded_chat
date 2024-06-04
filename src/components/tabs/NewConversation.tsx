@@ -3,15 +3,11 @@ import ConversationBody from "../common/ConversationBody";
 import ConversationFooter from "../common/ConversationFooter";
 
 const NewConversation = ({
-  currentTab,
-  setCurrentTab,
   toggleEmoji,
   setToggleEmoji,
   toggleGif,
   setToggleGif
 }: {
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
   toggleEmoji: boolean;
   setToggleEmoji: React.Dispatch<React.SetStateAction<boolean>>;
   toggleGif: boolean;
@@ -19,9 +15,9 @@ const NewConversation = ({
 }) => {
   return (
     <>
-      <Header setCurrentTab={setCurrentTab} currentTab={currentTab} />
+      <Header/>
         <ConversationBody toggleEmoji={toggleEmoji} toggleGif={toggleGif} />
-   <ConversationFooter toggleEmoji={toggleEmoji} setToggleEmoji={setToggleEmoji} toggleGif={toggleGif} setToggleGif={setToggleGif} />
+        <ConversationFooter toggleEmoji={toggleEmoji} setToggleEmoji={setToggleEmoji} toggleGif={toggleGif} setToggleGif={setToggleGif} />
     </>
   );
 };

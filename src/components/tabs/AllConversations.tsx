@@ -1,10 +1,12 @@
 import CloseAngularBracket from "../../assets/svg/CloseAngularBracket"
 import SendMessage from "../../assets/svg/SendMessage"
 import { TAB } from "../../constants"
+import { useChatStore } from "../../store"
 import { PreviousConversationCard } from "../cards/ContinueConversations"
 
 
-const AllConversations = ({ setCurrentTab }:{setCurrentTab:React.Dispatch<React.SetStateAction<string>>}) => {
+const AllConversations = () => {
+    const {setCurrentTab} = useChatStore()
   return (
     <>
         <div className="min-header">
@@ -18,7 +20,9 @@ const AllConversations = ({ setCurrentTab }:{setCurrentTab:React.Dispatch<React.
         <div className="all-conversations-body">
             {
                 [1,2,3,1,1,1,1,1,1].map(()=>{
-                    return <PreviousConversationCard setCurrentTab={setCurrentTab} />
+                    return (
+                    <PreviousConversationCard  />
+                    )
                 })
             }
         </div>

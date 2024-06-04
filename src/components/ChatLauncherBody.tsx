@@ -7,6 +7,7 @@ import AllConversations from "./tabs/AllConversations";
 import Header from "./common/Header";
 import NewConversation from "./tabs/NewConversation";
 import OpenConversation from "./tabs/OpenConversation";
+import { useChatStore } from "../store";
 const css: string = ` 
     .chat-widget {
         display: flex;
@@ -347,9 +348,11 @@ const css: string = `
 `;
 const ChatLauncherBody = ({ open }: { open: boolean }) => {
   const iframeChatBodyRef = useRef<null | HTMLIFrameElement>(null);
-  const [currentTab, setCurrentTab] = useState(TAB.NEW_CONVERSATION);
+  // const [currentTab, setCurrentTab] = useState(TAB.NEW_CONVERSATION);
   const [toggleEmoji, setToggleEmoji] = useState(false);
   const [toggleGif, setToggleGif] = useState(false);
+
+  const { currentTab, } = useChatStore();
 
   useEffect(() => {
     // setCurrentTab(TAB.HOME);
@@ -368,12 +371,10 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
   const init = () => {
     switch (currentTab) {
       case TAB.ALL_CONVERSATION:
-        return <AllConversations setCurrentTab={setCurrentTab} />;
+        return <AllConversations />;
       case TAB.NEW_CONVERSATION:
         return (
           <NewConversation
-            setCurrentTab={setCurrentTab}
-            currentTab={currentTab}
             toggleEmoji={toggleEmoji}
             setToggleEmoji={setToggleEmoji}
             toggleGif={toggleGif}
@@ -386,10 +387,9 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
         toggleGif={toggleGif}
         setToggleEmoji={setToggleEmoji} 
         toggleEmoji={toggleEmoji} 
-        setCurrentTab={setCurrentTab} 
-        currentTab={currentTab} />;
+        />;
       default:
-        return <Home currentTab={currentTab} setCurrentTab={setCurrentTab} />;
+        return <Home />;
     }
   };
 
@@ -432,21 +432,15 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
   );
 };
 
-const Home = ({
-  setCurrentTab,
-  currentTab,
-}: {
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const Home = () => {
   return (
     <>
-      <Header setCurrentTab={setCurrentTab} currentTab={currentTab} />
+      <Header/>
       <div className="chat-body z-20 slide-left-animation">
         <div className="conversation-section-body">
           {/* conditionally render continue conversation */}
-          <ContinueConversations setCurrentTab={setCurrentTab} />
-          <StartConversation setCurrentTab={setCurrentTab} />
+          <ContinueConversations />
+          <StartConversation />
         </div>
       </div>
       <div className="chat-footer z-30">

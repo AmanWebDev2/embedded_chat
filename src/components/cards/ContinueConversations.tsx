@@ -1,13 +1,16 @@
 import CloseAngularBracket from "../../assets/svg/CloseAngularBracket"
 import { TAB } from "../../constants"
+import { useChatStore } from "../../store";
 
-const ContinueConversations = ({ setCurrentTab }: {setCurrentTab: React.Dispatch<React.SetStateAction<string>>}) => {
+const ContinueConversations = () => {
+    const {setCurrentTab} = useChatStore();
+
   return (
     <div className="card continue-conversation">
          <h2 className="font-semibold text-lg px-5 py-3">Continue the conversation</h2>
          {
             [1,2,3].map(()=>{
-                return <PreviousConversationCard setCurrentTab={setCurrentTab} />
+                return <PreviousConversationCard />
             
             })
          }
@@ -18,11 +21,8 @@ const ContinueConversations = ({ setCurrentTab }: {setCurrentTab: React.Dispatch
   )
 }
 
-export const PreviousConversationCard = ({
-    setCurrentTab
-}:{
-    setCurrentTab: React.Dispatch<React.SetStateAction<string>>
-}) => {
+export const PreviousConversationCard = () => {
+    const {setCurrentTab} = useChatStore();
     return (
         <div onClick={()=>setCurrentTab(TAB.OPEN_CONVERSATION)} className="flex items-center inner-card-body prev-convo-card cursor-pointer">
             <div className="team-group">

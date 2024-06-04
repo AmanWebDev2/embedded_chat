@@ -1,10 +1,11 @@
-import React from "react";
 import Clock from "../../assets/svg/Clock";
 import Clock2 from "../../assets/svg/Clock2";
 import SendMessage from "../../assets/svg/SendMessage";
 import { TAB } from "../../constants";
+import { useChatStore } from "../../store";
 
-const StartConversation = ({ setCurrentTab }: {setCurrentTab:React.Dispatch<React.SetStateAction<string>>}) => {
+const StartConversation = () => {
+  const { setCurrentTab } = useChatStore();
   return (
     <>
       <div className="card start-conversation">
