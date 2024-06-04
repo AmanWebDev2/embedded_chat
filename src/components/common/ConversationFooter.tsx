@@ -32,22 +32,37 @@ const ConversationFooter = ({
     return div as HTMLDivElement;
   };
 
-  const handleMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e.target.value);
-  };
-
   const handleSendMessage = () => {
     if (!textareaRef.current) return;
-    const msg = {
-      type: "text",
-      text: textareaRef.current.value,
-    };
-    console.log("Message sent", msg);
+    const msg = textareaRef.current.value;
+    setCurrentConversation({
+      author:{
+        type: "widget-user",
+        firstName: "User"
+      },
+      id: "123",
+      messages:[{
+        content: msg,
+        type: "text"
+      }]
+    })
+    textareaRef.current.value = "";
   };
 
   const handleEmoji = (e:EmojiClickData) => {
     console.log('Emoji clicked');
     console.log(e.getImageUrl());
+    setCurrentConversation({
+      author:{
+        type: "widget-user",
+        firstName: "User"
+      },
+      id: "123",
+      messages:[{
+        content: e.emoji,
+        type: "text"
+      }]
+    })
   }
 
   const handleGif = (e:TenorImage) => {
@@ -73,7 +88,6 @@ const ConversationFooter = ({
       <div className="input w-full">
         <textarea
           ref={textareaRef}
-          onChange={handleMessage}
           autoFocus
           className="outline-none focus:ring-0 resize-none w-full h-full"
           placeholder="Write your message"
