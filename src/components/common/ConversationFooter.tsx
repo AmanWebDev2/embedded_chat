@@ -50,8 +50,6 @@ const ConversationFooter = ({
   };
 
   const handleEmoji = (e:EmojiClickData) => {
-    console.log('Emoji clicked');
-    console.log(e.getImageUrl());
     setCurrentConversation({
       author:{
         type: "widget-user",
@@ -63,12 +61,10 @@ const ConversationFooter = ({
         type: "text"
       }]
     })
+    setToggleEmoji(false);
   }
 
   const handleGif = (e:TenorImage) => {
-    console.log('Gif clicked');
-    console.log(e.url);
-
     setCurrentConversation({
       author:{
         type: "widget-user",
@@ -80,7 +76,7 @@ const ConversationFooter = ({
       }],
       id: "123"
     })
-   
+   setToggleGif(false);
   }
 
   return (
