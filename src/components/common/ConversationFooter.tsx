@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import GifPicker, { TenorImage } from "gif-picker-react";
 import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
 import { useChatStore } from "../../store";
+import { getIframeNode } from "../../utils";
 
 const ConversationFooter = ({
   toggleEmoji,
@@ -22,19 +23,13 @@ const ConversationFooter = ({
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const { setCurrentConversation } = useChatStore();
 
-  const getIframeNode = (id: string): null | HTMLDivElement => {
-    const chatWidgetIframe = document.getElementById(
-      "chat-widget-iframe"
-    ) as HTMLIFrameElement;
-    const doc = chatWidgetIframe.contentWindow?.document;
-    if (!doc) return null;
-    const div = doc.getElementById(id);
-    return div as HTMLDivElement;
-  };
-
   const handleSendMessage = () => {
     if (!textareaRef.current) return;
     const msg = textareaRef.current.value;
+    if(msg.trim().length === 0) {
+      textareaRef.current.value = "";
+      return;
+    }
     setCurrentConversation({
       author:{
         type: "widget-user",
@@ -84,6 +79,12 @@ const ConversationFooter = ({
       <div className="input w-full">
         <textarea
           ref={textareaRef}
+          onKeyDown={(e)=>{
+            if(e.key === "Enter" && !e.shiftKey){
+              e.preventDefault();
+              handleSendMessage();
+            }
+          }}
           autoFocus
           className="outline-none focus:ring-0 resize-none w-full h-full"
           placeholder="Write your message"
