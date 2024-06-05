@@ -14,7 +14,11 @@ type User = {
  * 2. type "text", content: "Hello"
  */
 
-type Message = {
+export type Message = {
+    author: {
+        type: string;
+        firstName: string;
+    };
     type: string;
     content: string;
 }
@@ -22,16 +26,12 @@ type Message = {
 // author | widget-user
 export type Conversation = {
     id: string;
-    author: {
-        type: string;
-        firstName: string;
-    };
     messages: Message[];
 }
 
 interface Store {
     user: User | null;
-    currentConversation: Conversation[] | null;
+    currentConversation: Conversation | null;
     previousConversations: Conversation[];
     currentTab: string;
     setCurrentTab: (currentTab: string) => void;
@@ -59,11 +59,17 @@ export const useChatStore = create<Store>()(devtools(
         ...initialState,
         setCurrentTab: (currentTab) => set((state) => ({ ...state, currentTab })),
         setUser: (user) => set((state) => ({ ...state, user })),
-        setCurrentConversation: (currentConversation) => set((state) => ({ 
-            ...state, 
-            currentConversation: state.currentConversation ? [...state.currentConversation, currentConversation] : [currentConversation]
-         })),
+        setCurrentConversation: (currentConversation) => set((state)=>{
+            return { ...state, currentConversation:{...currentConversation, 
+                messages: [...state.currentConversation?.messages || [], ...currentConversation.messages] }}
+        
+        }),
         setPreviousConversations: (previousConversations) => set((state) => ({ ...state, previousConversations })),
     })
 ));
 
+// HELPER
+/**
+ * Currenlty every time we add message to current conversation we are adding new id to it
+ * When we click on new conversation a new id conversation is created
+ */

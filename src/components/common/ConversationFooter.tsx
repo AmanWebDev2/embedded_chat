@@ -31,45 +31,51 @@ const ConversationFooter = ({
       return;
     }
     setCurrentConversation({
-      author:{
-        type: "widget-user",
-        firstName: "User"
-      },
-      id: "123",
-      messages:[{
-        content: msg,
-        type: "text"
-      }]
+      id:`${Math.random()}`,
+      messages: [
+        {
+          author: {
+            firstName: "User",
+            type: "widget-user",
+          },
+          content: msg,
+          type: "text",
+        }
+      ]
     })
     textareaRef.current.value = "";
   };
 
   const handleEmoji = (e:EmojiClickData) => {
     setCurrentConversation({
-      author:{
-        type: "widget-user",
-        firstName: "User"
-      },
-      id: "123",
-      messages:[{
-        content: e.emoji,
-        type: "text"
-      }]
+      id:`${Math.random()}`,
+      messages: [
+        {
+          author: {
+            firstName: "User",
+            type: "widget-user",
+          },
+          content: e.emoji,
+          type: "text",
+        }
+      ]
     })
     setToggleEmoji(false);
   }
 
   const handleGif = (e:TenorImage) => {
     setCurrentConversation({
-      author:{
-        type: "widget-user",
-        firstName: "User"
-      },
-      messages:[{
-        content: e.url,
-        type: "image"
-      }],
-      id: "123"
+      id:`${Math.random()}`,
+      messages: [
+        {
+          author: {
+            firstName: "User",
+            type: "widget-user",
+          },
+          content: e.url,
+          type: "image",
+        }
+      ]
     })
    setToggleGif(false);
   }

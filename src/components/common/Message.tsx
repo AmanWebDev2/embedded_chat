@@ -1,4 +1,4 @@
-import { Conversation } from "../../store";
+import { Message } from "../../store";
 
 {
   /* only flex-row-reverse dynamically call
@@ -6,10 +6,10 @@ import { Conversation } from "../../store";
         if i am receiving a message then --> flex-row
       */
 }
-const Message = ({
+const MessageComponent = ({
     messageData,
 }:{
-    messageData: Conversation;
+    messageData: Message;
 }) => {
   return (
     <div className="bubble-right-section flex flex-row-reverse gap-x-2">
@@ -21,14 +21,14 @@ const Message = ({
           Hellossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
         </p> */}
 
-        {messageData.messages[0].type === "text" ? (
-          <p className="text-sm text-balance break-all">{messageData.messages[0].content}</p>
+        {messageData.type === "text" ? (
+          <p className="text-sm text-balance break-all">{messageData.content}</p>
         ) : (
-          <img src={messageData.messages[0].content} alt="gif" />  
+          <img src={messageData.content} alt="gif" />  
         )}
       </div>
     </div>
   );
 };
 
-export default Message;
+export default MessageComponent;
