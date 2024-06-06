@@ -8,14 +8,17 @@ const ConversationBody = () => {
 
   useEffect(() => {
     // scroll to bottom
-    const chatBody = getIframeNode("chat-body");
-    if(chatBody) {
-      chatBody.scrollTo({
-        top: chatBody.scrollHeight,
-        behavior: "smooth"
-      })
-    }
-  }, [currentConversation])
+    const id  = setTimeout(()=>{
+      const chatBody = getIframeNode("chat-body");
+      if(chatBody) {
+        chatBody.scrollTo({
+          top: chatBody.scrollHeight,
+          behavior: "smooth"
+        })
+      }
+    },500)
+    return () => clearTimeout(id);
+  }, [currentConversation]);
 
   return (
     <div id="chat-body" className="chat-body p-4 space-y-4 overflow-y-auto flex-1">

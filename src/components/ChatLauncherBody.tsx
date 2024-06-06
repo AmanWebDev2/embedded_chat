@@ -354,11 +354,16 @@ const css: string = `
 `;
 const ChatLauncherBody = ({ open }: { open: boolean }) => {
   const iframeChatBodyRef = useRef<null | HTMLIFrameElement>(null);
-  // const [currentTab, setCurrentTab] = useState(TAB.NEW_CONVERSATION);
   const [toggleEmoji, setToggleEmoji] = useState(false);
   const [toggleGif, setToggleGif] = useState(false);
 
-  const { currentTab, } = useChatStore();
+  const { currentTab,setCurrentConversation } = useChatStore();
+
+  useEffect(() => {
+    if(currentTab != TAB.OPEN_CONVERSATION) {
+      setCurrentConversation(null);
+    }
+  },[currentTab])
 
   useEffect(() => {
     // setCurrentTab(TAB.HOME);
@@ -442,7 +447,7 @@ const ChatLauncherBody = ({ open }: { open: boolean }) => {
 const Home = () => {
   return (
     <>
-      <Header/>
+      <Header isMiniHeader={false}  backToTab={TAB.HOME}/>
       <div className="chat-body z-20 slide-left-animation">
         <div className="conversation-section-body">
           {/* conditionally render continue conversation */}

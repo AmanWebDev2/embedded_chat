@@ -3,8 +3,13 @@ import CloseAngularBracket from "../../assets/svg/CloseAngularBracket";
 import { TAB } from "../../constants";
 import { useChatStore } from "../../store";
 
-const Header = () => {
-  const { currentTab, setCurrentTab } = useChatStore();
+type HeaderProps = {
+  backToTab: string;
+  isMiniHeader: boolean;
+}
+
+const Header= ({ backToTab, isMiniHeader }:HeaderProps) => {
+  const { currentTab, setCurrentTab, currentConversation } = useChatStore();
 
   const headerText = () => {
     switch (currentTab) {
@@ -20,7 +25,7 @@ const Header = () => {
   };
   return (
     <>
-   {  currentTab === TAB.OPEN_CONVERSATION ? <MiniHeader /> : <nav className="chat-header">
+   {  (isMiniHeader || currentConversation ) ? <MiniHeader tab={backToTab} /> : <nav className="chat-header">
       <div className="chat-widget-header-shape-secondary"></div>
       <div className="chat-widget-header-section">
         <div className="header-section-text slide-left-animation">
@@ -50,20 +55,19 @@ const Header = () => {
   );
 };
 
-const MiniHeader = () => {
-  const { currentTab, setCurrentTab } = useChatStore();
+const MiniHeader = ({ tab }:{tab:string}) => {
+  const { setCurrentTab } = useChatStore();
   return (
     <nav className="min-header">
       <div
         className="back-to-home-btn"
         onClick={() => {
-          setCurrentTab(TAB.HOME);
+          setCurrentTab(tab);
         }}
       >
         <CloseAngularBracket />
       </div>
       {
-        currentTab === TAB.OPEN_CONVERSATION ? 
         
         <div className="flex items-center gap-x-3 flex-1 py-1 cursor-pointer rounded transition-all ease-in-out duration-300 pl-3 text-white hover:bg-black hover:bg-opacity-10">
               <div className="team-group">
@@ -79,11 +83,7 @@ const MiniHeader = () => {
                 </span>
               </div>
             </div>   
-       
-        :
-        <h2 className="text-xl text-center flex-1 text-white">
-        Open Conversation
-      </h2>}
+            }
     </nav>
   );
 };

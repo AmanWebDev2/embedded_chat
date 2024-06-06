@@ -1,3 +1,4 @@
+import { TAB } from "../../constants";
 import ConversationBody from "../common/ConversationBody";
 import ConversationFooter from "../common/ConversationFooter";
 import Header from "../common/Header";
@@ -15,7 +16,7 @@ const OpenConversation = ({
   }) => {
   return (
     <>
-    <Header/>
+    <Header isMiniHeader={true} backToTab={TAB.HOME}/>
     <ConversationBody/>
     <ConversationFooter toggleEmoji={toggleEmoji} setToggleEmoji={setToggleEmoji} toggleGif={toggleGif} setToggleGif={setToggleGif} />
     </>

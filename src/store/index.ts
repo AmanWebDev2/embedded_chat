@@ -36,7 +36,7 @@ interface Store {
     currentTab: string;
     setCurrentTab: (currentTab: string) => void;
     setUser: (user: any) => void;
-    setCurrentConversation: (currentConversation: Conversation) => void;
+    setCurrentConversation: (currentConversation: Conversation|null) => void;
     setPreviousConversations: (previousConversations: Conversation[]) => void;
 
 }
@@ -60,6 +60,7 @@ export const useChatStore = create<Store>()(devtools(
         setCurrentTab: (currentTab) => set((state) => ({ ...state, currentTab })),
         setUser: (user) => set((state) => ({ ...state, user })),
         setCurrentConversation: (currentConversation) => set((state)=>{
+            if(!currentConversation) return { ...state, currentConversation: null }
             return { ...state, currentConversation:{...currentConversation, 
                 messages: [...state.currentConversation?.messages || [], ...currentConversation.messages] }}
         
