@@ -31,7 +31,6 @@ const ConversationFooter = ({
       return;
     }
     setCurrentConversation({
-      id:`${Math.random()}`,
       messages: [
         {
           author: {
@@ -48,7 +47,6 @@ const ConversationFooter = ({
 
   const handleEmoji = (e:EmojiClickData) => {
     setCurrentConversation({
-      id:`${Math.random()}`,
       messages: [
         {
           author: {
@@ -65,7 +63,6 @@ const ConversationFooter = ({
 
   const handleGif = (e:TenorImage) => {
     setCurrentConversation({
-      id:`${Math.random()}`,
       messages: [
         {
           author: {

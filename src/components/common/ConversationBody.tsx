@@ -4,7 +4,7 @@ import MessageComponent from "./Message"
 import { getIframeNode } from "../../utils";
 
 const ConversationBody = () => {
-  const { currentConversation } = useChatStore();
+  const { currentConversation,setPreviousConversations,previousConversations } = useChatStore();
 
   useEffect(() => {
     // scroll to bottom
@@ -16,7 +16,15 @@ const ConversationBody = () => {
           behavior: "smooth"
         })
       }
-    },500)
+    },500);
+
+    // add and update current conversation to previous conversation
+    if(currentConversation) {
+      const prevConversations = previousConversations.filter(conversation => conversation.id !== currentConversation.id);
+      setPreviousConversations([...prevConversations,currentConversation]);
+    }
+    
+
     return () => clearTimeout(id);
   }, [currentConversation]);
 

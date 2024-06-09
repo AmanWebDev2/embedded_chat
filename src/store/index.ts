@@ -25,7 +25,7 @@ export type Message = {
 
 // author | widget-user
 export type Conversation = {
-    id: string;
+    id?: string;
     messages: Message[];
 }
 
@@ -61,8 +61,14 @@ export const useChatStore = create<Store>()(devtools(
         setUser: (user) => set((state) => ({ ...state, user })),
         setCurrentConversation: (currentConversation) => set((state)=>{
             if(!currentConversation) return { ...state, currentConversation: null }
-            return { ...state, currentConversation:{...currentConversation, 
-                messages: [...state.currentConversation?.messages || [], ...currentConversation.messages] }}
+            return { 
+                ...state, 
+                currentConversation:{
+                    ...state.currentConversation,  
+                    ...currentConversation, 
+                    messages: [...state.currentConversation?.messages || [], ...currentConversation.messages] 
+                }
+            }
         
         }),
         setPreviousConversations: (previousConversations) => set((state) => ({ ...state, previousConversations })),

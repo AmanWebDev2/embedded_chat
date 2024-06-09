@@ -25,7 +25,7 @@ const Header= ({ backToTab, isMiniHeader }:HeaderProps) => {
   };
   return (
     <>
-   {  (isMiniHeader || currentConversation ) ? <MiniHeader tab={backToTab} /> : <nav className="chat-header">
+   {  (isMiniHeader || (currentConversation?.messages && currentConversation.messages.length>0) ) ? <MiniHeader tab={backToTab} /> : <nav className="chat-header">
       <div className="chat-widget-header-shape-secondary"></div>
       <div className="chat-widget-header-section">
         <div className="header-section-text slide-left-animation">

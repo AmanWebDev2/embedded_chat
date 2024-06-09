@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import ChatLauncher from './components/ChatLauncher'
 import ChatLauncherBody from './components/ChatLauncherBody'
+import io from 'socket.io-client';
+import { useChatStore } from './store';
+import { TAB } from './constants';
+import { getIframeNode } from './utils';
 
 const css:string = `
 .kudoshub-Iframe-hide {
@@ -118,11 +122,75 @@ const css:string = `
 `
 
 function App() {
+  
   const [open,setOpen] = useState<boolean>(false);
+  const { currentTab,setCurrentConversation,currentConversation,setPreviousConversations,previousConversations } = useChatStore();
+
   useEffect(() => {
     const chatEmbed = (window as any).chatEmbed;
     console.log(chatEmbed) // working
-  }, [])
+
+    const socket = io('http://localhost:3030');
+
+    // socket.on('connect', () => {
+    //   console.log('Connected to server',socket.id);
+    // })
+
+    socket.on('welcome', (msg) => {
+      console.log('Welcome from server',msg);
+    });
+
+    socket.on('message', (msg) => {
+      console.log('Message from server',msg);
+    })
+    
+    return () => {
+      socket.disconnect(); // Disconnect when the component unmounts
+  };
+  }, []);
+
+
+
+  useEffect(()=>{
+    const socket = io('http://localhost:3030');
+    if(currentTab === TAB.NEW_CONVERSATION) {
+      socket.on('connect', () => {
+        console.log('Connected to server',socket.id);
+        setCurrentConversation({
+          id:`${socket.id}`,
+          messages: []
+        })
+      });
+    }
+    return () => {
+      if(currentTab === TAB.NEW_CONVERSATION){
+        socket.disconnect(); // Disconnect when the component unmounts
+      }
+    }
+  },[currentTab]);
+
+  useEffect(() => {
+    // scroll to bottom
+    const id  = setTimeout(()=>{
+      const chatBody = getIframeNode("chat-body");
+      if(chatBody) {
+        chatBody.scrollTo({
+          top: chatBody.scrollHeight,
+          behavior: "smooth"
+        })
+      }
+    },500);
+
+    // add and update current conversation to previous conversation
+    if(currentConversation) {
+      const prevConversations = previousConversations.filter(conversation => conversation.id !== currentConversation.id);
+      setPreviousConversations([...prevConversations,currentConversation]);
+    }
+    
+
+    return () => clearTimeout(id);
+  }, [currentConversation,previousConversations,setPreviousConversations]);
+
   return (
     <>
     <style type="text/css">
