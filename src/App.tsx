@@ -189,7 +189,7 @@ function App() {
     
 
     return () => clearTimeout(id);
-  }, [currentConversation,previousConversations,setPreviousConversations]);
+  }, [currentConversation]);
 
   return (
     <>

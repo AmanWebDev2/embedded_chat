@@ -1,32 +1,8 @@
-import { useEffect } from "react";
 import { useChatStore } from "../../store";
 import MessageComponent from "./Message"
-import { getIframeNode } from "../../utils";
 
 const ConversationBody = () => {
-  const { currentConversation,setPreviousConversations,previousConversations } = useChatStore();
-
-  useEffect(() => {
-    // scroll to bottom
-    const id  = setTimeout(()=>{
-      const chatBody = getIframeNode("chat-body");
-      if(chatBody) {
-        chatBody.scrollTo({
-          top: chatBody.scrollHeight,
-          behavior: "smooth"
-        })
-      }
-    },500);
-
-    // add and update current conversation to previous conversation
-    if(currentConversation) {
-      const prevConversations = previousConversations.filter(conversation => conversation.id !== currentConversation.id);
-      setPreviousConversations([...prevConversations,currentConversation]);
-    }
-    
-
-    return () => clearTimeout(id);
-  }, [currentConversation]);
+  const { currentConversation } = useChatStore();
 
   return (
     <div id="chat-body" className="chat-body p-4 space-y-4 overflow-y-auto flex-1">
