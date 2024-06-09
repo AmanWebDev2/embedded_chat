@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './App.css'
 import ChatLauncher from './components/ChatLauncher'
 import ChatLauncherBody from './components/ChatLauncherBody'
-import io from 'socket.io-client';
 import { useChatStore } from './store';
-import { TAB } from './constants';
 import { getIframeNode } from './utils';
+import { SocketContext } from './context/socketContext';
+import { TAB } from './constants';
 
 const css:string = `
 .kudoshub-Iframe-hide {
@@ -124,48 +124,50 @@ const css:string = `
 function App() {
   
   const [open,setOpen] = useState<boolean>(false);
-  const { currentTab,setCurrentConversation,currentConversation,setPreviousConversations,previousConversations } = useChatStore();
-
+  const [socketId,setSocketId] = useState<string>("");
+  const { currentTab,currentConversation,setCurrentConversation,setPreviousConversations,previousConversations } = useChatStore();
+  
+  const socket = useContext(SocketContext);
+  
   useEffect(() => {
     const chatEmbed = (window as any).chatEmbed;
     console.log(chatEmbed) // working
+  }, []);
 
-    const socket = io('http://localhost:3030');
+  useEffect(()=>{
+    if(!socket) return;
 
-    // socket.on('connect', () => {
-    //   console.log('Connected to server',socket.id);
-    // })
-
-    socket.on('welcome', (msg) => {
-      console.log('Welcome from server',msg);
+    socket.on('connect', () => {
+      console.log('Connected to server',socket.id);
+      setSocketId(`${socket.id}`);
     });
 
-    socket.on('message', (msg) => {
-      console.log('Message from server',msg);
-    })
+     // emit message to server
+    if(currentConversation && currentConversation.messages.length > 0) {
+      const message = currentConversation.messages[currentConversation.messages.length - 1];
+      socket.emit('message',message);
+    }
+
+    // add and update current conversation to previous conversation
+    if(currentConversation) {
+      const prevConversations = previousConversations.filter(conversation => conversation.id !== currentConversation.id);
+      setPreviousConversations([...prevConversations,currentConversation]);
+    }
     
     return () => {
       socket.disconnect(); // Disconnect when the component unmounts
-  };
-  }, []);
+    }
+  },[socket,currentConversation])
 
 
 
   useEffect(()=>{
-    const socket = io('http://localhost:3030');
-    if(currentTab === TAB.NEW_CONVERSATION) {
-      socket.on('connect', () => {
-        console.log('Connected to server',socket.id);
-        setCurrentConversation({
-          id:`${socket.id}`,
-          messages: []
-        })
-      });
-    }
-    return () => {
-      if(currentTab === TAB.NEW_CONVERSATION){
-        socket.disconnect(); // Disconnect when the component unmounts
-      }
+
+    if(currentTab === TAB.NEW_CONVERSATION || !socket){
+      setCurrentConversation({
+        id:`${socketId}`,
+        messages: []
+      })
     }
   },[currentTab]);
 
@@ -181,14 +183,9 @@ function App() {
       }
     },500);
 
-    // add and update current conversation to previous conversation
-    if(currentConversation) {
-      const prevConversations = previousConversations.filter(conversation => conversation.id !== currentConversation.id);
-      setPreviousConversations([...prevConversations,currentConversation]);
+    return () => {
+      clearTimeout(id);
     }
-    
-
-    return () => clearTimeout(id);
   }, [currentConversation]);
 
   return (
