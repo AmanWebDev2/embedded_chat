@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-frame-component": "^5.2.7",
     "socket.io-client": "^4.7.5",
+    "uuid": "^10.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "@types/react-dom": "^18.2.22",
     "@types/react-frame-component": "^4.1.6",
     "@types/socket.io-client": "^3.0.0",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",

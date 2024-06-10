@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import FileUpload from "../../assets/svg/FileUpload";
 import GIF from "../../assets/svg/GIF";
 import SendMessage from "../../assets/svg/SendMessage";
@@ -6,8 +6,9 @@ import Smiley from "../../assets/svg/Smiley";
 import { createPortal } from "react-dom";
 import GifPicker, { TenorImage } from "gif-picker-react";
 import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
-import { useChatStore } from "../../store";
+import { Conversation, useChatStore } from "../../store";
 import { getIframeNode } from "../../utils";
+import { SocketContext } from "../../context/socketContext";
 
 const ConversationFooter = ({
   toggleEmoji,
@@ -21,16 +22,33 @@ const ConversationFooter = ({
   setToggleGif: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const { setCurrentConversation } = useChatStore();
+  const {
+    setCurrentConversation,
+    currentConversation,
+    previousConversations,
+    setPreviousConversations,
+  } = useChatStore();
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    // add and update current conversation to previous conversation
+    if (currentConversation) {
+      const prevConversations = previousConversations.filter(
+        (conversation) => conversation.id !== currentConversation.id
+      );
+      setPreviousConversations([...prevConversations, currentConversation]);
+    }
+  }, [currentConversation]);
 
   const handleSendMessage = () => {
     if (!textareaRef.current) return;
     const msg = textareaRef.current.value;
-    if(msg.trim().length === 0) {
+    if (msg.trim().length === 0) {
       textareaRef.current.value = "";
       return;
     }
-    setCurrentConversation({
+
+    const conversationObj:Conversation = {
       messages: [
         {
           author: {
@@ -39,13 +57,24 @@ const ConversationFooter = ({
           },
           content: msg,
           type: "text",
-        }
-      ]
-    })
+        },
+      ],
+    };
+
+    // if(!currentConversation?.id) {
+    //   conversationObj.id = uuidv4();
+    // }
+
+    setCurrentConversation(conversationObj);
+
+    if (socket) {
+      socket.emit("message", conversationObj,currentConversation?.id);
+    }
+
     textareaRef.current.value = "";
   };
 
-  const handleEmoji = (e:EmojiClickData) => {
+  const handleEmoji = (e: EmojiClickData) => {
     setCurrentConversation({
       messages: [
         {
@@ -55,13 +84,13 @@ const ConversationFooter = ({
           },
           content: e.emoji,
           type: "text",
-        }
-      ]
-    })
+        },
+      ],
+    });
     setToggleEmoji(false);
-  }
+  };
 
-  const handleGif = (e:TenorImage) => {
+  const handleGif = (e: TenorImage) => {
     setCurrentConversation({
       messages: [
         {
@@ -71,19 +100,19 @@ const ConversationFooter = ({
           },
           content: e.url,
           type: "image",
-        }
-      ]
-    })
-   setToggleGif(false);
-  }
+        },
+      ],
+    });
+    setToggleGif(false);
+  };
 
   return (
     <div className="new-conversation-footer flex">
       <div className="input w-full">
         <textarea
           ref={textareaRef}
-          onKeyDown={(e)=>{
-            if(e.key === "Enter" && !e.shiftKey){
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               handleSendMessage();
             }
@@ -115,9 +144,15 @@ const ConversationFooter = ({
         createPortal(
           <>
             {toggleEmoji && (
-                 <div className="popover" role="tooltip">
-                 <EmojiPicker onEmojiClick={handleEmoji} theme={Theme.DARK} lazyLoadEmojis={true} width="unset" height="-webkit-fill-available" />
-               </div>
+              <div className="popover" role="tooltip">
+                <EmojiPicker
+                  onEmojiClick={handleEmoji}
+                  theme={Theme.DARK}
+                  lazyLoadEmojis={true}
+                  width="unset"
+                  height="-webkit-fill-available"
+                />
+              </div>
             )}
           </>,
           getIframeNode("popover-portal") as Element

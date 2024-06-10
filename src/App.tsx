@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import './App.css'
 import ChatLauncher from './components/ChatLauncher'
 import ChatLauncherBody from './components/ChatLauncherBody'
-import { useChatStore } from './store';
+import { Conversation, useChatStore } from './store';
 import { getIframeNode } from './utils';
 import { SocketContext } from './context/socketContext';
 import { TAB } from './constants';
+import { v4 as uuidv4 } from 'uuid';
 
 const css:string = `
 .kudoshub-Iframe-hide {
@@ -121,6 +122,8 @@ const css:string = `
 
 `
 
+
+
 function App() {
   
   const [open,setOpen] = useState<boolean>(false);
@@ -134,42 +137,45 @@ function App() {
     console.log(chatEmbed) // working
   }, []);
 
-  useEffect(()=>{
-    if(!socket) return;
 
-    socket.on('connect', () => {
-      console.log('Connected to server',socket.id);
-      setSocketId(`${socket.id}`);
-    });
+  // receive message from server
+  useEffect(() => {
+    // This effect only executes on the initial render so that we aren't setting
+    // up the socket repeatedly. This means it can't reliably refer to "participants"
+    // because once "setParticipants" is called this would be looking at a stale
+    // "participants" reference (it would forever see the initial value of the
+    // "participants" state since it isn't in the dependency array).
+    // "participantsRef", on the other hand, will be stable across re-renders and 
+    // "participantsRef.current" successfully provides the up-to-date value of 
+    // "participants" (due to the other effect updating the ref).
+  if(!socket) return;
 
-     // emit message to server
-    if(currentConversation && currentConversation.messages.length > 0) {
-      const message = currentConversation.messages[currentConversation.messages.length - 1];
-      socket.emit('message',message);
-    }
+  socket.on('connect', () => {
+    console.log('Connected to server',socket.id);
+    setSocketId(`${socket.id}`);
+  });
 
-    // add and update current conversation to previous conversation
-    if(currentConversation) {
-      const prevConversations = previousConversations.filter(conversation => conversation.id !== currentConversation.id);
-      setPreviousConversations([...prevConversations,currentConversation]);
-    }
-    
+  const handler = (message) => {
+    messageHandler(message);
+  };
+  
+    socket.on('receive-message', handler);
     return () => {
-      socket.disconnect(); // Disconnect when the component unmounts
+      socket.off('receive-message', handler);
+      socket.disconnect();
     }
-  },[socket,currentConversation])
+  }, []);
 
 
-
+  // add uuid to current conversation
   useEffect(()=>{
-
-    if(currentTab === TAB.NEW_CONVERSATION || !socket){
+    if(currentTab === TAB.NEW_CONVERSATION){
       setCurrentConversation({
-        id:`${socketId}`,
+        id:`${uuidv4()}`,
         messages: []
       })
     }
-  },[currentTab]);
+  },[currentTab,setCurrentConversation]);
 
   useEffect(() => {
     // scroll to bottom
@@ -187,6 +193,38 @@ function App() {
       clearTimeout(id);
     }
   }, [currentConversation]);
+
+
+  const messageHandler = (message) => {
+
+    console.log('Message received: ', message,message.event);
+
+    // setCurrentConversation({
+    //   ...currentConversation,
+    //    messages:[...currentConversation?.messages || [], message]
+    // })
+
+  
+    const sendMessage = (msg:Conversation) => {
+      console.log('sendMessage', msg);
+    }
+  
+    const receiveMessage = (msg:Conversation) => {
+      console.log('receiveMessage', msg);
+    }
+  
+    switch (message.event) {
+      case 'sendMessage':
+        sendMessage(message.userid, message.username);
+        break;
+      case 'receiveMessage':
+        receiveMessage(message.userid, message.username, message.message);
+        break;
+      default:
+        break;
+    }
+  };
+  
 
   return (
     <>

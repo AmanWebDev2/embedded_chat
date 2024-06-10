@@ -12,7 +12,7 @@ const MessageComponent = ({
     messageData: Message;
 }) => {
   return (
-    <div className="bubble-right-section flex flex-row-reverse gap-x-2">
+    <div className={`bubble-right-section flex ${messageData.author.type === 'bot' ? 'flex-row':'flex-row-reverse'} gap-x-2`}>
       <div className="message-sender-icon">
         <div className="chat-bot-icon"></div>
       </div>
