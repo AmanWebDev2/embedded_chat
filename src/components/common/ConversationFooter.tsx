@@ -68,7 +68,7 @@ const ConversationFooter = ({
     setCurrentConversation(conversationObj);
 
     if (socket) {
-      socket.emit("message", conversationObj,currentConversation?.id);
+      socket.emit("message", conversationObj.messages[0],currentConversation?.id);
     }
 
     textareaRef.current.value = "";

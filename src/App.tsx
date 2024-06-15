@@ -199,10 +199,10 @@ function App() {
 
     console.log('Message received: ', message,message.event);
 
-    // setCurrentConversation({
-    //   ...currentConversation,
-    //    messages:[...currentConversation?.messages || [], message]
-    // })
+    setCurrentConversation({
+      ...currentConversation,
+       messages:[...currentConversation?.messages || [], message]
+    })
 
   
     const sendMessage = (msg:Conversation) => {
